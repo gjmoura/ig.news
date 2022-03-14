@@ -6,17 +6,21 @@ import styles from "./styles.module.scss";
 
 export function SignInButton() {
   const { data: session, status } = useSession();
-
-  return session ? (
-    <button type="button" onClick={() => signOut()} className={styles.signInButton}>
-      <FaGithub color="#04d361" />
-      <>{session.user.name}</>
-      <FiX color="#737380" className={styles.closeIcon} />
-    </button>
-  ) : (
-    <button type="button" onClick={() => signIn('github')} className={styles.signInButton}>
-      <FaGithub color="#eba417" />
-      Sign in with Github
-    </button>
-  );
+  
+  if (status === "authenticated") {
+    return(
+      <button type="button" onClick={() => signOut()} className={styles.signInButton}>
+        <FaGithub color="#04d361" />
+          <>{session.user?.name}</>
+        <FiX color="#737380" className={styles.closeIcon} />
+      </button>
+    )
+  } else {
+    return(
+      <button type="button" onClick={() => signIn('github')} className={styles.signInButton}>
+        <FaGithub color="#eba417" />
+        Sign in with Github
+      </button>
+      )
+  };
 }
